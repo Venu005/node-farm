@@ -1,9 +1,28 @@
-const { error } = require("console");
 const fs = require("fs");
 //import * as fs from "node:fs";
 //
 const http = require("http");
 const url = require("url");
+const replaceTemplate = require("./modules/replaceTemplate");
+const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, (err, data) => {
+  if (err) {
+    console.log(err);
+  }
+});
+const productData = JSON.parse(data);
+const tempOverview = fs.readFileSync(
+  `${__dirname}/templates/template-overview.html`,
+  "utf-8"
+);
+const tempCard = fs.readFileSync(
+  `${__dirname}/templates/template-card.html`,
+  "utf-8"
+);
+const tempProduct = fs.readFileSync(
+  `${__dirname}/templates/template-product.html`,
+  "utf-8"
+);
+
 //////////// fs-- read , write, aappend file --async way
 // fs.readFile("txt/input.txt", "utf8", (err, data) => {
 //   if (err) {
@@ -42,13 +61,33 @@ const url = require("url");
 // create a server
 const server = http.createServer((req, res) => {
   console.log(req.url); // reading the url
-  const pathname = req.url;
+  const pathName = req.url;
+  console.log(url.parse(pathName, true));
+  const { query, pathname } = url.parse(pathName, true);
 
   //routing
   if (pathname === "/" || pathname === "/overview") {
-    res.end("This is the overview");
+    res.writeHead(200, {
+      "Content-type": "text/html",
+    });
+    const cardsHTML = productData
+      .map((el) => replaceTemplate(tempCard, el))
+      .join("");
+    const ouput = tempOverview.replace(/{%PRODUCT_CARDS%}/g, cardsHTML);
+    res.end(ouput);
   } else if (pathname === "/product") {
-    res.end("This is the product page");
+    res.writeHead(200, {
+      "Content-type": "text/html",
+    });
+    const product = productData[query.id];
+    const output = replaceTemplate(tempProduct, product);
+    res.end(output);
+  } else if (pathname === "/api") {
+    res.writeHead(200, {
+      "Content-type": "application/json",
+    });
+    // const productData =  JSON.parse(data);
+    res.end(data);
   } else {
     res.writeHead(404, {
       // this is a header
