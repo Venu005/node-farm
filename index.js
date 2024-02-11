@@ -1,8 +1,9 @@
 const fs = require("fs");
 //import * as fs from "node:fs";
-//
+
 const http = require("http");
 const url = require("url");
+const sulgify = require("slugify");
 const replaceTemplate = require("./modules/replaceTemplate");
 const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, (err, data) => {
   if (err) {
@@ -10,6 +11,8 @@ const data = fs.readFileSync(`${__dirname}/dev-data/data.json`, (err, data) => {
   }
 });
 const productData = JSON.parse(data);
+const slugs = productData.map((el) => sulgify(el.productName, { lower: true }));
+
 const tempOverview = fs.readFileSync(
   `${__dirname}/templates/template-overview.html`,
   "utf-8"
