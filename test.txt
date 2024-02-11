@@ -1,0 +1,1 @@
+this is to check if the file is created automatically for writeFile and yes it does

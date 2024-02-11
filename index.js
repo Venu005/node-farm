@@ -1,24 +1,50 @@
 const fs = require("fs");
 //import * as fs from "node:fs";
 //
-console.log(hello);
-fs.readFile("txt/input.txt", "utf8", (err, data) => {
-  if (err) {
-    return console.log("Error");
-  } else {
-    console.log(data);
-  }
-  //console.log(data);
-});
-// completely  rewrite the file
-// fs.writeFile(`txt/input.txt`, "this is a new text", "utf-8", (err) => {
+const http = require("http");
+//////////// fs-- read , write, aappend file --async way
+// fs.readFile("txt/input.txt", "utf8", (err, data) => {
 //   if (err) {
-//     throw new Error("Error");
+//     return console.log("Error");
+//   } else {
+//     console.log(data);
+//   }
+//   //console.log(data);
+// });
+// // completely  rewrite the file
+// // fs.writeFile(`txt/input.txt`, "this is a new text", "utf-8", (err) => {
+// //   if (err) {
+// //     throw new Error("Error");
+// //   }
+// // });
+// // append to the file
+// fs.appendFile("txt/input.txt", "appended file", "utf-8", (err) => {
+//   if (err) {
+//     throw new Error();
 //   }
 // });
-// append to the file
-fs.appendFile('txt/input.txt', 'appended file', 'utf-8', (err)=>{
-    if(err){
-        throw new Error;
-    }
-})
+// // writeFile creates the file if it does not exist
+// fs.writeFile(
+//   "test.txt",
+//   "this is to check if the file is created automatically for writeFile and yes it does",
+//   "utf-8",
+//   (err) => {
+//     if (err) {
+//       throw new Error();
+//     }
+//   }
+// );
+//skipping callback hell, cause I know I can use async, await or promises 🌚🌚
+
+///SERVER
+// create a server
+const server = http.createServer((req, res) => {
+  console.log(req);
+  res.end("Hello from the server");
+});
+// start a server
+server.listen(8000, "localhost", () => {
+  console.log("Server is listening on port 8000");
+});
+
+

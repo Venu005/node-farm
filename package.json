@@ -1,0 +1,20 @@
+{
+  "name": "farm",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Venu005/node-farm.git"
+  },
+  "author": "Venu005",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Venu005/node-farm/issues"
+  },
+  "homepage": "https://github.com/Venu005/node-farm#readme"
+}
