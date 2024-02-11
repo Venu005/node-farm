@@ -1,7 +1,9 @@
+const { error } = require("console");
 const fs = require("fs");
 //import * as fs from "node:fs";
 //
 const http = require("http");
+const url = require("url");
 //////////// fs-- read , write, aappend file --async way
 // fs.readFile("txt/input.txt", "utf8", (err, data) => {
 //   if (err) {
@@ -39,12 +41,24 @@ const http = require("http");
 ///SERVER
 // create a server
 const server = http.createServer((req, res) => {
-  console.log(req);
-  res.end("Hello from the server");
+  console.log(req.url); // reading the url
+  const pathname = req.url;
+
+  //routing
+  if (pathname === "/" || pathname === "/overview") {
+    res.end("This is the overview");
+  } else if (pathname === "/product") {
+    res.end("This is the product page");
+  } else {
+    res.writeHead(404, {
+      // this is a header
+      "Content-type": "text/html",
+    });
+    res.end(`<h1>sorry babe, this page does not exist ${res.statusCode} </h1>`);
+  }
+  // res.end("Hello from the server");
 });
 // start a server
 server.listen(8000, "localhost", () => {
   console.log("Server is listening on port 8000");
 });
-
-
